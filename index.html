@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Profile and Video Capture</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+        }
+
+        main {
+            max-width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        #profiles {
+            display: flex;
+            justify-content: space-between; /* Updated spacing */
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .profile {
+            width: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .profile img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .props {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .prop,
+        .cone {
+            width: 20px; /* Updated width for rectangular bars */
+            height: 100px; /* Updated height for rectangular bars */
+            background-color: #e74c3c;
+            margin: 5px;
+            position: relative;
+        }
+
+        .cone {
+            background-color: #3498db;
+        }
+
+        .health-bar {
+            width: 20px; /* Updated width for rectangular bars */
+            height: 100px; /* Updated height for rectangular bars */
+            margin-left: 5px;
+            background-color: #bdc3c7;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .health-fill {
+            width: 100%;
+            background-color: #3498db;
+        }
+
+        /* Adjust the color based on health fill percentage */
+        .health-fill:not(:empty) {
+            background-color: #3498db;
+        }
+
+        #videoLink {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        #videoLink:hover {
+            color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Friend Profile and Video Capture</h1>
+    </header>
+
+    <main>
+        <div id="profiles">
+            <div class="profile">
+                <div class="label">Amr's Profile</div>
+                <img src="amr.png" alt="Friend's Photo">
+                <div class="props">
+                    <div class="prop">
+                        Smart
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 1%;"></div>
+                        </div>
+                    </div>
+                    <div class="prop">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 50%;"></div>
+                        </div>
+                    </div>
+                    <div class="prop">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="cone">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile">
+                <div class="label">Ragy's Profile</div>
+                <img src="ragy.png" alt="Friend's Photo">
+                <div class="props">
+                    <div class="prop">
+                        
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="prop">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="prop">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 40%;"></div>
+                        </div>
+                    </div>
+                    <div class="cone">
+                        <div class="health-bar">
+                            <div class="health-fill" style="height: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a id="videoLink" href="captureVid.html">Capture Videos</a>
+    </main>
+</body>
+
+</html>
