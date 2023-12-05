@@ -5,6 +5,7 @@
     <title>Media Capture and Recording</title>
 </head>
 <style>
+/* Styling for the page */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -14,12 +15,14 @@ body {
     text-align: center;
 }
 
+/* Header styling */
 header {
-    background-color: #2c3e50;
+    background-color: #ffffff;
     color: #ecf0f1;
     padding: 15px;
 }
 
+/* Styling for the main content */
 main {
     max-width: 80%;
     margin: 20px auto;
@@ -29,11 +32,13 @@ main {
     border-radius: 8px;
 }
 
+/* Heading styling */
 h1 {
     color: #34495e;
     margin-bottom: 20px;
 }
 
+/* Styling for form elements */
 select, input, button {
     width: 80%;
     padding: 10px;
@@ -44,6 +49,7 @@ select, input, button {
     outline: none;
 }
 
+/* Styling for video element */
 #video {
     width: 80%;
     max-width: 100%;
@@ -54,6 +60,7 @@ select, input, button {
     margin: 10px auto;
 }
 
+/* Styling for buttons */
 button {
     background-color: #3498db;
     color: #fff;
@@ -63,16 +70,19 @@ button {
     transition: background-color 0.3s;
 }
 
+/* Button hover effect */
 button:hover {
     background-color: #2980b9;
 }
 
+/* Styling for labels */
 label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
 }
 
+/* Initially hide specific elements */
 #nameLabel, #videoName, #saveVideo {
     display: none;
 }
@@ -83,15 +93,20 @@ label {
 <body>
     <h1>Media Capture and Recording</h1>
 
+    <!-- Dropdown for selecting video source -->
     <select id="videoSource"></select>
+    <!-- Video element for displaying captured content -->
     <video id="video" width="320" height="240" controls></video>
+    <!-- Buttons for starting, stopping, and saving video -->
     <button id="start">Start</button>
     <button id="stop">Stop</button>
+    <!-- Label and input for naming the recorded video -->
     <label id="nameLabel" style="display: none;">Video Name:</label>
     <input type="text" id="videoName" style="display: none;" placeholder="Enter video name">
     <button id="saveVideo" style="display: none;">Save Video</button>
 
     <script>
+        // Get references to HTML elements
         var video = document.querySelector("#video");
         var startButton = document.querySelector("#start");
         var stopButton = document.querySelector("#stop");
@@ -101,7 +116,7 @@ label {
         var saveVideoButton = document.querySelector("#saveVideo");
 
         var mediaRecorder;
-        var chunks = [];
+        var chunks = []; // Array to store video chunks
 
         // Get available video sources and populate the dropdown
         navigator.mediaDevices.enumerateDevices()
@@ -119,23 +134,31 @@ label {
                 console.log(err.name + ": " + err.message);
             });
 
+        // Event handler for the "Start" button
         startButton.onclick = function () {
             var selectedVideoSource = videoSourceSelect.value;
 
+            // Request user media with selected video source and audio
             navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedVideoSource }, audio: true })
                 .then(function (stream) {
+                    // Initialize MediaRecorder with the media stream
                     mediaRecorder = new MediaRecorder(stream);
                     video.srcObject = stream;
                     video.onloadedmetadata = function (e) {
                         video.play();
                     };
+
+                    // Start recording and handle data available event
                     mediaRecorder.start();
                     mediaRecorder.ondataavailable = function (e) {
                         if (e.data.size > 0) {
                             chunks.push(e.data);
                         }
                     };
+
+                    // Handle stop event
                     mediaRecorder.onstop = function (e) {
+                        // Create a Blob from the recorded chunks
                         var blob = new Blob(chunks, { 'type': 'video/mp4' });
                         chunks = [];
 
@@ -144,6 +167,7 @@ label {
                         videoNameInput.style.display = 'inline';
                         saveVideoButton.style.display = 'inline';
 
+                        // Event handler for saving the video
                         saveVideoButton.onclick = function () {
                             // Save the recorded video to the specified folder with the given name
                             saveToFolder(blob, videoNameInput.value);
@@ -159,15 +183,21 @@ label {
                 });
         };
 
+        // Event handler for the "Stop" button
         stopButton.onclick = function () {
+            // Stop recording and release the video tracks
             mediaRecorder.stop();
             video.srcObject.getTracks().forEach(track => track.stop());
         };
 
+        // Function to save the video to a selected folder
         async function saveToFolder(blob, videoName) {
             try {
+                // Open a file picker to choose a directory for saving
                 const folderHandle = await window.showDirectoryPicker();
+                // Create or get the file handle for the video with the specified name
                 const fileHandle = await folderHandle.getFileHandle(`${videoName}.mp4`, { create: true });
+                // Create a writable stream and write the blob data to the file
                 const writable = await fileHandle.createWritable();
                 await writable.write(blob);
                 await writable.close();
