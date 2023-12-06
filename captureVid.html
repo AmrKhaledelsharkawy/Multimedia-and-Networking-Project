@@ -5,107 +5,103 @@
     <title>Media Capture and Recording</title>
 </head>
 <style>
-/* Styling for the page */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-    color: #333;
-    text-align: center;
-}
+    /* Styling for the page */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        color: #333;
+        text-align: center;
+    }
 
-/* Header styling */
-header {
-    background-color: #ffffff;
-    color: #ecf0f1;
-    padding: 15px;
-}
+    /* Header styling */
+    header {
+        background-color: #2c3e50;
+        padding: 15px;
+    }
 
-/* Styling for the main content */
-main {
-    max-width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+    /* Styling for the main content */
+    main {
+        max-width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
 
-/* Heading styling */
-h1 {
-    color: #34495e;
-    margin-bottom: 20px;
-}
+    /* Heading styling */
+    h1 {
+        color: #ecf0f1;
+        margin-bottom: 20px;
+    }
 
-/* Styling for form elements */
-select, input, button {
-    width: 80%;
-    padding: 10px;
-    margin: 10px auto;
-    box-sizing: border-box;
-    border: 1px solid #bdc3c7;
-    border-radius: 4px;
-    outline: none;
-}
+    /* Styling for form elements */
+    select, input, button {
+        width: 80%;
+        padding: 10px;
+        margin: 10px auto;
+        box-sizing: border-box;
+        border: 1px solid #bdc3c7;
+        border-radius: 4px;
+        outline: none;
+    }
 
-/* Styling for video element */
-#video {
-    width: 80%;
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #bdc3c7;
-    background-color: #2c3e50;
-    border-radius: 4px;
-    margin: 10px auto;
-}
+    /* Styling for video element */
+    #video {
+        width: 80%;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #bdc3c7;
+        background-color: #2c3e50;
+        border-radius: 4px;
+        margin: 10px auto;
+    }
 
-/* Styling for buttons */
-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
+    /* Styling for buttons */
+    button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
 
-/* Button hover effect */
-button:hover {
-    background-color: #2980b9;
-}
+    /* Button hover effect */
+    button:hover {
+        background-color: #2980b9;
+    }
 
-/* Styling for labels */
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
+    /* Styling for labels */
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
 
-/* Initially hide specific elements */
-#nameLabel, #videoName, #saveVideo {
-    display: none;
-}
-/* Header styling */
-        header {
-            background-color: #2c3e50;
-            padding: 15px;
-        }
+    /* Initially hide specific elements */
+    #nameLabel, #videoName, #saveVideo {
+        display: none;
+    }
+
 </style>
 
 </head>
+
 <body>
     <header>
-        <h1 style="color: #ecf0f1;
-        " >Media Capture and Recording</h1>
+        <h1 style="color: #ecf0f1;">Media Capture and Recording</h1>
     </header>
 
     <!-- Dropdown for selecting video source -->
     <select id="videoSource"></select>
     <!-- Video element for displaying captured content -->
     <video id="video" width="320" height="240" controls></video>
-    <!-- Buttons for starting, stopping, and saving video -->
+    <!-- Buttons for starting, stopping, pausing, and saving video -->
     <button id="start">Start</button>
+    <button id="pause">Pause</button>
     <button id="stop">Stop</button>
     <!-- Label and input for naming the recorded video -->
     <label id="nameLabel" style="display: none;">Video Name:</label>
@@ -116,6 +112,7 @@ label {
         // Get references to HTML elements
         var video = document.querySelector("#video");
         var startButton = document.querySelector("#start");
+        var pauseButton = document.querySelector("#pause");
         var stopButton = document.querySelector("#stop");
         var videoSourceSelect = document.querySelector("#videoSource");
         var nameLabel = document.querySelector("#nameLabel");
@@ -188,6 +185,17 @@ label {
                 .catch(function (err) {
                     console.log(err.name + ": " + err.message);
                 });
+        };
+
+        // Event handler for the "Pause" button
+        pauseButton.onclick = function () {
+            if (mediaRecorder.state === 'recording') {
+                mediaRecorder.pause();
+                pauseButton.innerText = 'Resume';
+            } else if (mediaRecorder.state === 'paused') {
+                mediaRecorder.resume();
+                pauseButton.innerText = 'Pause';
+            }
         };
 
         // Event handler for the "Stop" button
